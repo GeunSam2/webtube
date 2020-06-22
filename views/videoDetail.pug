@@ -1,0 +1,11 @@
+extends layouts/main
+
+block content
+    .video_player
+        video(src=`../${Video.fileUrl}`)
+    .video_info
+        h5.video_title #{Video.title}
+        span.video_views #{Video.views}
+        p.video_description #{Video.description}
+    form(action=routes.editVideo(Video.id), method="get").video_edit
+        input(type="submit" value="Edit this Video")
