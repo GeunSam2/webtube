@@ -13,7 +13,7 @@ export const home = async (req, res) => {
 export const search = (req, res) => {
 	//console.log(req)
 	const {
-		query: { term: searchBy },
+		query: { term: searchBy }
 	} = req
 	res.render('search', { searchBy })
 }
@@ -21,20 +21,20 @@ export const getUpload = (req, res) => res.render('videoUpload', { pageTitle: 'u
 export const postUpload = async (req, res) => {
 	const {
 		file,
-		body: { title, description },
+		body: { title, description }
 	} = req
 	//console.log(file.path, title, description)
 	const newVideo = await videos.create({
 		fileUrl: file.path,
 		title,
-		description,
+		description
 	})
 	console.log(newVideo)
 	res.redirect(routes.videoDetail(newVideo.id))
 }
 export const videoDetail = async (req, res) => {
 	const {
-		params: { id },
+		params: { id }
 	} = req
 	try {
 		const video = await videos.findById(id)
@@ -45,14 +45,27 @@ export const videoDetail = async (req, res) => {
 		res.redirect(routes.home)
 	}
 }
-export const getEditVideo = (req, res) => {
+export const getEditVideo = async (req, res) => {
 	const {
-		params: { id },
+		params: { id }
 	} = req
-	res.render('editVideo', { pageTitle: 'editVideo', id })
+	try {
+		const video = await videos.findById(id)
+		res.render('editVideo', { pageTitle: 'editVideo', video })
+	} catch (error) {
+		console.log(error)
+		res.redirect(routes.home)
+	}
 }
 
 export const postEditVideo = (req, res) => {
-	res.redirect(routes.home)
+	try {
+		//const {data : {}} = req
+		console.log(req.body)
+		//res.redirect(routes.home)
+	} catch (error) {
+		console.log(error)
+		res.redirect(routes.home)
+	}
 }
 export const deleteVideo = (req, res) => res.render('some', { pageTitle: 'deleteVideo' })
