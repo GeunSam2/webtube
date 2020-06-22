@@ -10,7 +10,7 @@ export const localsMiddleware = (req, res, next) => {
 	res.locals.routes = routes
 	res.locals.users = {
 		id: 1,
-		authIsYes: true,
+		authIsYes: true
 	}
 	next()
 }
